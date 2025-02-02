@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Search() {
+export default function Header() {
   const [query, setQuery] = useState("");
   return (
     <>
