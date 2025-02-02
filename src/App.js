@@ -59,6 +59,20 @@ export default function App() {
 
       <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
       <WatchedList watched={tempWatchedData} />
+
+      {/* Success/Error Message Disply Using Composition */}
+      <MessageBox>
+        <Success /> {/*or <Failure /> */}
+      </MessageBox>
     </>
   );
+}
+
+// props.children
+function MessageBox({ children }) {
+  return <div>{children}</div>;
+}
+
+function Success() {
+  return <p>Success Message</p>;
 }
