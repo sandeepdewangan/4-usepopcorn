@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function Search() {
-  const [query, setQury] = useState("");
+  const [query, setQuery] = useState("");
   return (
     <>
       <input type="text" />
