@@ -3,6 +3,8 @@ import MovieList from "./MovieList";
 import StarRating from "./StarRating";
 import WatchedList from "./WatchedList";
 
+import PropTypes from "prop-types";
+
 const tempMovieData = [
   {
     imdbID: "tt1375666",
@@ -74,6 +76,11 @@ function MessageBox({ children }) {
   return <div>{children}</div>;
 }
 
-function Success() {
+Success.propTypes = {
+  message: PropTypes.string,
+  successCode: PropTypes.number,
+};
+
+function Success({ message, successCode }) {
   return <p>Success Message</p>;
 }
