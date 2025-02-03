@@ -56,12 +56,21 @@ const apiKey = "541ff05e";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState("matrix");
 
   // Executed only at first mount
   useEffect(function () {
-    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=matrix`)
-      .then((res) => res.json())
-      .then((data) => setMovies(data.Search));
+    async function fetchMovies() {
+      setIsLoading(true);
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
+      );
+      const data = await res.json();
+      setMovies(data.Search);
+      setIsLoading(false);
+    }
+    fetchMovies();
   }, []);
 
   return (
@@ -69,7 +78,7 @@ export default function App() {
       <Search />
 
       <h3 style={{ backgroundColor: "yellow" }}>Movies List</h3>
-      <MovieList movies={movies} />
+      {isLoading ? <p>Loading...</p> : <MovieList movies={movies} />}
 
       <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
       <WatchedList watched={tempWatchedData} />
