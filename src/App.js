@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Search from "./Header";
 import MovieList from "./MovieList";
 import WatchedList from "./WatchedList";
@@ -51,13 +52,24 @@ const tempWatchedData = [
   },
 ];
 
+const apiKey = "541ff05e";
+
 export default function App() {
+  const [movies, setMovies] = useState([]);
+
+  // Executed only at first mount
+  useEffect(function () {
+    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=matrix`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
+
   return (
     <>
       <Search />
 
       <h3 style={{ backgroundColor: "yellow" }}>Movies List</h3>
-      <MovieList movies={tempMovieData} />
+      <MovieList movies={movies} />
 
       <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
       <WatchedList watched={tempWatchedData} />
