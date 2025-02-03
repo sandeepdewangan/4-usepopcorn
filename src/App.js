@@ -1,5 +1,6 @@
 import Search from "./Header";
 import MovieList from "./MovieList";
+import StarRating from "./StarRating";
 import WatchedList from "./WatchedList";
 
 const tempMovieData = [

@@ -1,3 +1,5 @@
+import StarRating from "./StarRating";
+
 export default function WatchedList({ watched }) {
   return watched.map((movie) => (
     <div>
@@ -6,6 +8,7 @@ export default function WatchedList({ watched }) {
       <p>
         {movie.imdbRating}, {movie.userRating}, {movie.runtime} min
       </p>
+      <StarRating maxRating={movie.userRating} />
     </div>
   ));
 }
