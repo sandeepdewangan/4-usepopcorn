@@ -21,6 +21,7 @@ export default function StarRating({ maxRating }) {
         {Array.from({ length: 5 }, (value, index) =>
           clicked ? (
             <svg
+              key={index}
               onClick={() => onRate(index + 1)}
               onMouseEnter={() => onHover(index + 1)}
               onMouseLeave={onLeave}
@@ -37,6 +38,7 @@ export default function StarRating({ maxRating }) {
             </svg>
           ) : (
             <svg
+              key={index}
               onClick={() => onRate(index + 1)}
               onMouseEnter={() => onHover(index + 1)}
               onMouseLeave={onLeave}
