@@ -1,6 +1,5 @@
 import Search from "./Header";
 import MovieList from "./MovieList";
-import StarRating from "./StarRating";
 import WatchedList from "./WatchedList";
 
 import PropTypes from "prop-types";
