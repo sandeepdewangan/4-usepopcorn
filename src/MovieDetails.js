@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import StarRating from "./StarRating";
+import { type } from "@testing-library/user-event/dist/type";
 
 const apiKey = "541ff05e";
 
-export default function MovieDetails({ movieID, setMovieID }) {
+export default function MovieDetails({ movieID, setMovieID, setWatchedMovie }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [movie, setMovie] = useState([]);
   const [error, setError] = useState([]);
+  const [movie, setMovie] = useState([]);
 
   useEffect(
     function () {
@@ -36,6 +37,11 @@ export default function MovieDetails({ movieID, setMovieID }) {
     [movieID]
   );
 
+  function onAddWatchedHistory() {
+    setWatchedMovie((e) => [...e, movie]);
+    setMovieID("");
+  }
+
   return (
     <div>
       {isLoading && <p>Loading...</p>}
@@ -46,7 +52,10 @@ export default function MovieDetails({ movieID, setMovieID }) {
             <h3>{movie.Title}</h3>
             <p>{movie.Writer}</p>
           </div>
-          <StarRating />
+          <StarRating maxRating={5} />
+          <button onClick={() => onAddWatchedHistory(movie)}>
+            Add to watched history
+          </button>
         </div>
       )}
       {!movieID && <p>Please select an movie</p>}
