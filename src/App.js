@@ -4,6 +4,7 @@ import MovieList from "./MovieList";
 import WatchedList from "./WatchedList";
 
 import PropTypes from "prop-types";
+import MovieDetails from "./MovieDetails";
 
 const tempMovieData = [
   {
@@ -59,6 +60,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("matrix");
   const [error, setError] = useState("");
+  const [movieID, setMovieID] = useState(null);
 
   // Executed only at first mount
   useEffect(
@@ -76,7 +78,6 @@ export default function App() {
           }
 
           const data = await res.json();
-          console.log(data);
 
           if (data.Response === "False") {
             throw new Error("Something went wrong.");
@@ -108,7 +109,12 @@ export default function App() {
       {/* {isLoading ? <p>Loading...</p> : <MovieList movies={movies} />} */}
       {isLoading && <p>Loading...</p>}
       {error && <p>Error...</p>}
-      {!isLoading && !error && <MovieList movies={movies} />}
+      {!isLoading && !error && (
+        <MovieList movies={movies} setMovieID={setMovieID} />
+      )}
+
+      <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
+      <MovieDetails movieID={movieID} setMovieID={setMovieID} />
 
       <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
       <WatchedList watched={tempWatchedData} />
