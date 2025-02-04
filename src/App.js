@@ -61,31 +61,48 @@ export default function App() {
   const [error, setError] = useState("");
 
   // Executed only at first mount
-  useEffect(function () {
-    async function fetchMovies() {
-      try {
-        setIsLoading(true);
-        const res = await fetch(
-          `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
-        );
-        if (!res.ok) {
-          throw new Error("Something went wrong.");
+  useEffect(
+    function () {
+      async function fetchMovies() {
+        try {
+          setIsLoading(true);
+          setError("");
+          const res = await fetch(
+            `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
+          );
+
+          if (!res.ok) {
+            throw new Error("Something went wrong.");
+          }
+
+          const data = await res.json();
+          console.log(data);
+
+          if (data.Response === "False") {
+            throw new Error("Something went wrong.");
+          }
+          setMovies(data.Search);
+          setIsLoading(false);
+        } catch (error) {
+          setError(error);
+        } finally {
+          setIsLoading(false);
         }
-        const data = await res.json();
-        setMovies(data.Search);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
       }
-    }
-    fetchMovies();
-  }, []);
+      // limiting the search length
+      if (query.length < 3) {
+        setMovies([]);
+        setError("");
+        return;
+      }
+      fetchMovies();
+    },
+    [query]
+  );
 
   return (
     <>
-      <Search />
+      <Search query={query} setQuery={setQuery} />
 
       <h3 style={{ backgroundColor: "yellow" }}>Movies List</h3>
       {/* {isLoading ? <p>Loading...</p> : <MovieList movies={movies} />} */}

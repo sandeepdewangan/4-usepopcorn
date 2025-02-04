@@ -1,10 +1,11 @@
-import { useState } from "react";
-
-export default function Header() {
-  const [query, setQuery] = useState("");
+export default function Header({ query, setQuery }) {
   return (
     <>
-      <input type="text" />
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      />
     </>
   );
 }
