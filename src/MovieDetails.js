@@ -8,6 +8,7 @@ export default function MovieDetails({ movieID, setMovieID, setWatchedMovie }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState([]);
   const [movie, setMovie] = useState([]);
+  const [rating, setRating] = useState(0);
 
   useEffect(
     function () {
@@ -38,7 +39,11 @@ export default function MovieDetails({ movieID, setMovieID, setWatchedMovie }) {
   );
 
   function onAddWatchedHistory() {
-    setWatchedMovie((e) => [...e, movie]);
+    const watchedMovie = {
+      ...movie,
+      userRating: rating,
+    };
+    setWatchedMovie((e) => [...e, watchedMovie]);
     setMovieID("");
   }
 
@@ -52,7 +57,7 @@ export default function MovieDetails({ movieID, setMovieID, setWatchedMovie }) {
             <h3>{movie.Title}</h3>
             <p>{movie.Writer}</p>
           </div>
-          <StarRating maxRating={5} />
+          <StarRating rating={rating} setRating={setRating} />
           <button onClick={() => onAddWatchedHistory(movie)}>
             Add to watched history
           </button>

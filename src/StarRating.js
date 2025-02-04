@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function StarRating({ maxRating }) {
-  const [rating, setRating] = useState(maxRating);
+export default function StarRating({ rating, setRating }) {
+  // const [rating, setRating] = useState(userRating);
   const [tempRating, setTempRating] = useState(0);
   const [clicked, setClicked] = useState(false);
 

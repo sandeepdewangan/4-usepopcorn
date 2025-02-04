@@ -70,7 +70,9 @@ export default function App() {
       <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
       {watchedMovie.length > 0 ? (
         watchedMovie.map((m) => (
-          <p style={{ backgroundColor: "grey" }}>{m.Title}</p>
+          <p style={{ backgroundColor: "grey" }}>
+            {m.Title} - {m.userRating}
+          </p>
         ))
       ) : (
         <div>No watched history!</div>
