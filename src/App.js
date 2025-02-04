@@ -58,17 +58,27 @@ export default function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("matrix");
+  const [error, setError] = useState("");
 
   // Executed only at first mount
   useEffect(function () {
     async function fetchMovies() {
-      setIsLoading(true);
-      const res = await fetch(
-        `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
-      );
-      const data = await res.json();
-      setMovies(data.Search);
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const res = await fetch(
+          `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
+        );
+        if (!res.ok) {
+          throw new Error("Something went wrong.");
+        }
+        const data = await res.json();
+        setMovies(data.Search);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
     }
     fetchMovies();
   }, []);
@@ -78,7 +88,10 @@ export default function App() {
       <Search />
 
       <h3 style={{ backgroundColor: "yellow" }}>Movies List</h3>
-      {isLoading ? <p>Loading...</p> : <MovieList movies={movies} />}
+      {/* {isLoading ? <p>Loading...</p> : <MovieList movies={movies} />} */}
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error...</p>}
+      {!isLoading && !error && <MovieList movies={movies} />}
 
       <h3 style={{ backgroundColor: "yellow" }}>Watched List</h3>
       <WatchedList watched={tempWatchedData} />
