@@ -66,6 +66,21 @@ export default function App() {
     },
     [query]
   );
+  // adding event listener
+  useEffect(function () {
+    // when component mounted this is called
+    function callback(e) {
+      if (e.code === "Escape") {
+        console.log("Esc Key Pressed");
+      }
+    }
+    document.addEventListener("keydown", callback);
+
+    // when component unmounts this is called
+    return function () {
+      document.removeEventListener("keydown", callback);
+    };
+  }, []);
 
   return (
     <>
