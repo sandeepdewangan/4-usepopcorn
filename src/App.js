@@ -14,8 +14,6 @@ export default function App() {
   const [movieID, setMovieID] = useState(null);
   const [watchedMovie, setWatchedMovie] = useState([]);
 
-  const [text, setText] = useState("");
-
   // Executed only at first mount
   useEffect(
     function () {
@@ -26,14 +24,6 @@ export default function App() {
         try {
           setIsLoading(true);
           setError("");
-
-          // set the text state
-          setText("Text state set");
-          // read the state immediately
-          // nothing will display bez the state is set asynchronously.
-          // This point of time the text value has not set yet.
-          console.log(text);
-          // solution is to set via callback
 
           const res = await fetch(
             `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`,
