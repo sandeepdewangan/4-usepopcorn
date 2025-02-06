@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import StarRating from "./StarRating";
-import { type } from "@testing-library/user-event/dist/type";
 
 const apiKey = "541ff05e";
 
@@ -39,11 +38,12 @@ export default function MovieDetails({ movieID, setMovieID, setWatchedMovie }) {
   );
 
   function onAddWatchedHistory() {
-    const watchedMovie = {
+    const addWatchedMovie = {
       ...movie,
       userRating: rating,
     };
-    setWatchedMovie((e) => [...e, watchedMovie]);
+
+    setWatchedMovie((e) => [...e, addWatchedMovie]);
     setMovieID("");
   }
 

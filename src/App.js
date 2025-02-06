@@ -12,7 +12,14 @@ export default function App() {
   const [query, setQuery] = useState("matrix");
   const [error, setError] = useState("");
   const [movieID, setMovieID] = useState(null);
-  const [watchedMovie, setWatchedMovie] = useState([]);
+  // when user press the refresh button of browser,
+  // the watched list is empty again.
+  // to keep the watched history we must get the data from local storage
+  // and set it back.
+  const [watchedMovie, setWatchedMovie] = useState(function () {
+    const dataFromLocalStorage = localStorage.getItem("watched");
+    return JSON.parse(dataFromLocalStorage);
+  });
 
   // Executed only at first mount
   useEffect(
@@ -80,6 +87,15 @@ export default function App() {
       document.removeEventListener("keydown", callback);
     };
   }, []);
+  // storing the watched movie to browser storage
+  // whenever watchedMovie updated,
+  // the local storage captures the movie and saves it.
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watchedMovie));
+    },
+    [watchedMovie]
+  );
 
   return (
     <>
