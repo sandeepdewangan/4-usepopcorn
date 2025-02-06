@@ -19,12 +19,16 @@ export default function App() {
   // Executed only at first mount
   useEffect(
     function () {
+      // browser specific controller
+      const controller = new AbortController();
+
       async function fetchMovies() {
         try {
           setIsLoading(true);
           setError("");
           const res = await fetch(
-            `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`
+            `http://www.omdbapi.com/?apikey=${apiKey}&s=${query}`,
+            { signal: controller.signal }
           );
 
           if (!res.ok) {
@@ -38,8 +42,11 @@ export default function App() {
           }
           setMovies(data.Search);
           setIsLoading(false);
+          setError("");
         } catch (error) {
-          setError(error);
+          if (error.name !== "AbortError") {
+            setError(error);
+          }
         } finally {
           setIsLoading(false);
         }
@@ -51,6 +58,11 @@ export default function App() {
         return;
       }
       fetchMovies();
+
+      // clean up
+      return function () {
+        controller.abort();
+      };
     },
     [query]
   );
